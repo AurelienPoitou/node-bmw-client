@@ -1,0 +1,1391 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "My API",
+    "version": "1.0.0",
+    "description": "API documentation"
+  },
+  "host": "e39rpi4.local:3002",
+  "basePath": "/",
+  "schemes": ["http"],
+  "paths": {
+    "/app/gc": {
+      "get": {
+        "summary": "Force-run garbage collection",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/config": {
+      "get": {
+        "summary": "Get configuration",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Update configuration",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid content-type",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/console": {
+      "get": {
+        "summary": "Toggle console output",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/status": {
+      "get": {
+        "summary": "Get status",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/dme/encode-316/{rpm}": {
+      "get": {
+        "summary": "Encode DME 316",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "rpm",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/dsp/eq/{band}/{value}": {
+      "get": {
+        "summary": "Adjust DSP EQ",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "band",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/dsp/get/{value}": {
+      "get": {
+        "summary": "Get DSP value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/dsp/loudness/{state}": {
+      "get": {
+        "summary": "Set DSP loudness",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "state",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/dsp/m-audio/{mode}": {
+      "get": {
+        "summary": "Set DSP m-audio mode",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mode",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/dsp/mode/{mode}": {
+      "get": {
+        "summary": "Set DSP mode",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mode",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/dsp/speaker-test/{command}": {
+      "get": {
+        "summary": "Run DSP speaker test",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "command",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/dsp/eq": {
+      "post": {
+        "summary": "Set DSP EQ",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid content-type",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fem/backlight/{value}": {
+      "get": {
+        "summary": "Set FEM backlight value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/gm/doors/closed/{value}": {
+      "get": {
+        "summary": "Set doors closed status",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/gm/doors/open/{value}": {
+      "get": {
+        "summary": "Set doors open status",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/gm/doors/sealed/{value}": {
+      "get": {
+        "summary": "Set doors sealed status",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/gm/get/{value}": {
+      "get": {
+        "summary": "Get GM value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+        "/gm/interior-light/{value}": {
+      "get": {
+        "summary": "Set GM interior light value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/gm/mirror/{mirror}/{action}": {
+      "get": {
+        "summary": "Set GM mirror action",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mirror",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "action",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/gm/windows/closed/{value}": {
+      "get": {
+        "summary": "Set windows closed status",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/gm/windows/open/{value}": {
+      "get": {
+        "summary": "Set windows open status",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/gm/decode_status_open": {
+      "post": {
+        "summary": "Decode GM status open",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid content-type",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gm/locks": {
+      "post": {
+        "summary": "Set GM locks",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid content-type",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gm/mirrors": {
+      "post": {
+        "summary": "Set GM mirrors",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid content-type",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gm/windows": {
+      "post": {
+        "summary": "Set GM windows",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid content-type",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpio/set/{relay}/{value}": {
+      "get": {
+        "summary": "Set GPIO relay value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "relay",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/gpio/toggle/{relay}": {
+      "get": {
+        "summary": "Toggle GPIO relay",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "relay",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/hdmi/cec/command/{action}": {
+      "get": {
+        "summary": "Send HDMI CEC command",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "action",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/hdmi/rpi/command/{action}": {
+      "get": {
+        "summary": "Send HDMI RPi command",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "action",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/ihka/get/{value}": {
+      "get": {
+        "summary": "Get IHKA value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/ihka/recirc": {
+      "get": {
+        "summary": "Set IHKA recirculation",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/ihka/aux": {
+      "post": {
+        "summary": "Set IHKA auxiliary settings",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid content-type",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ike/get/{value}": {
+      "get": {
+        "summary": "Get IKE value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+        "/ike/ignition/{value}": {
+      "get": {
+        "summary": "Set IKE ignition",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/ike/textWithOptions": {
+      "post": {
+        "summary": "Set IKE text with options",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "string": {
+                  "type": "string"
+                },
+                "options": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Invalid content-type",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ike/text/nopad/{value}": {
+      "get": {
+        "summary": "Set IKE text without padding",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/ike/text/normal/{value}": {
+      "get": {
+        "summary": "Set IKE normal text",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/ike/text/override/{value}": {
+      "get": {
+        "summary": "Override IKE text",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/ike/text/urgent/{value}": {
+      "get": {
+        "summary": "Set IKE urgent text",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/ike/text/urgent/off": {
+      "get": {
+        "summary": "Turn off IKE urgent text",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/ike/text/warning/{value}": {
+      "get": {
+        "summary": "Set IKE warning text",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/lcm/comfort-turn/{action}": {
+      "get": {
+        "summary": "Set LCM comfort turn action",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "action",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/lcm/dimmer/{value}": {
+      "get": {
+        "summary": "Set LCM dimmer value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/lcm/get/{value}": {
+      "get": {
+        "summary": "Get LCM value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/lcm/io-encode": {
+      "get": {
+        "summary": "Encode LCM IO",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "required": true,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Encode LCM IO",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid content-type",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lcm/police-lights/{action}": {
+      "get": {
+        "summary": "Set LCM police lights action",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "action",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/lcm/welcome-lights/{action}": {
+      "get": {
+        "summary": "Set LCM welcome lights action",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "action",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/mfl/translate-button-media/{action}/{button}": {
+      "get": {
+        "summary": "Translate MFL button media action",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "action",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "button",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/obc/get-all": {
+      "get": {
+        "summary": "Get all OBC data",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/obc/get/{value}": {
+      "get": {
+        "summary": "Get OBC value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/obc/reset/{value}": {
+      "get": {
+        "summary": "Reset OBC value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+        "/obc/set/clock": {
+      "get": {
+        "summary": "Set OBC clock",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/power/{state}": {
+      "get": {
+        "summary": "Set power state",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "state",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/rad/cassette/{command}": {
+      "get": {
+        "summary": "Control RAD cassette",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "command",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/rad/power/{command}": {
+      "get": {
+        "summary": "Control RAD power",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "command",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/rad/source/{command}": {
+      "get": {
+        "summary": "Control RAD source",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "command",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/rad/volume/{command}": {
+      "get": {
+        "summary": "Control RAD volume",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "command",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/rls/get/{value}": {
+      "get": {
+        "summary": "Get RLS value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/rls/light-control": {
+      "post": {
+        "summary": "Control RLS light",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid content-type",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/szm/button/{button}": {
+      "get": {
+        "summary": "Encode SZM button",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "button",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
