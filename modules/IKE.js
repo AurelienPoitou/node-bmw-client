@@ -944,6 +944,43 @@ class IKE extends EventEmitter {
 		// 176 = P (4+5+7)
 		// 192 = 4 (6+7)
 		// 208 = 3 (4+6+7)
+		const first_nibble = (bb & 0xF0) >> 4;
+		let gear;
+
+		switch (first_nibble) {
+			case 0x1:
+		        	gear = 'R';
+		        	break;
+		        case 0x2:
+		        	gear = '1';
+		        	break;
+			case 0x4:
+			        gear = '2';
+			        break;
+			case 0x6:
+			        gear = 'N';
+			        break;
+			case 0x8:
+			        gear = 'D';
+			        break;
+			case 0xB:
+			        gear = 'P';
+			        break;
+			case 0xC:
+			        gear = '4';
+			        break;
+			case 0xD:
+			        gear = '3';
+			        break;
+			case 0xE:
+			        gear = '5';
+			        break;
+			default:
+			        gear = 'X';
+			        break;
+		}
+
+                update.status('vehicle.gear', gear, false);
 
 		update.status('vehicle.handbrake', bitmask.test(data.msg[1], bitmask.bit[0]), false);
 
