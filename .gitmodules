@@ -1,6 +1,6 @@
 [submodule "helpers"]
 	path = helpers
-	url = https://github.com/kmalinich/node-bmw-helpers.git
+	url = git@github.com:AurelienPoitou/node-bmw-helpers.git
 [submodule "share"]
 	path = share
-	url = https://github.com/kmalinich/node-bmw-share.git
+	url = git@github.com:AurelienPoitou/node-bmw-share.git
