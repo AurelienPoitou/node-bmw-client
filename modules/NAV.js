@@ -27,23 +27,63 @@ function parse_gps_time(data) {
 
 // Broadcast: Current GPS position
 function parse_gps_position(data) {
-	data.command = 'bro';
-	data.value   = 'TODO: current GPS position';
+        data.command = 'bro';
+        data.value   = 'GPS position';
 
-	// data.msg[1] = 0x01 : GPS fix
+        // data.msg[1] = 0x01 : GPS fix
+        data.parse = {
+                latitudeDegrees     : data.msg[3].toString(16),
+                latitudeMinutes     : data.msg[4].toString(16),
+                latitudeSeconds     : data.msg[5].toString(16),
+                latitudeFractional  : data.msg[6].toString(16),
+                latitudeDirection   : (data.msg[6] & 15) === 1 ? 'S' : 'N',
+                longitudeDegrees    : data.msg[8].toString(16),
+                longitudeMinutes    : data.msg[9].toString(16),
+                longitudeSeconds    : data.msg[10].toString(16),
+                longitudeFractional : data.msg[11].toString(16),
+                longitudeDirection  : (data.msg[11] & 15) === 1 ? 'W' : 'E',
+                altitude            : data.msg[12] * 100 + data.msg[13]
 
-	return data;
+                string : null,
+        };
+
+        if (data.parse.latitudeDegrees > 90) {
+                data.parse.string = '-' + (data.parse.latitudeDegrees - 180) + '°';
+        } else {
+                data.parse.string = data.parse.latitudeDegrees + '°';
+        }
+        data.parse.string += data.parse.latitudeMinutes + "'";
+        data.parse.string += data.parse.latitudeSeconds + '.';
+        data.parse.string += data.parse.latitudeFractional +'"';
+        data.parse.string += data.parse.latitudeDirection + ', ';
+
+        data.parse.string += data.parse.longitudeDegrees + '°';
+        data.parse.string += data.parse.longitudeMinutes + "'";
+        data.parse.string += data.parse.longitudeSeconds + '.';
+        data.parse.string += data.parse.longitudeFractional +'"';
+        data.parse.string += data.parse.longitudeDirection + ', ';
+
+        data.parse.string += ', Altitude: ' + data.parse.string.altitude.toString() + 'm';
+
+        data.value += ': ' + data.parse.string;
+
+        return data;
 }
 
 // Broadcast: Current location name
 function parse_location_name(data) {
-	data.command = 'bro';
-	data.value   = 'TODO: current location name';
+        data.command = 'bro';
+        data.value   = 'GPS location, ';
+        asciiArray = data.slice(3);
 
-	// data.msg[2] = 0x01 : Town
-	// data.msg[2] = 0x02 : Street
+        if (data.msg[2] == 0x01) {
+		        data.value += 'City: ' + asciiArray.filter(code => code !== 0).map(code => String.fromCharCode(code)).join('');
+		}
+		if (data.msg[2] == 0x02) {
+		        data.value += 'Street: ' + asciiArray.filter(code => code !== 0).map(code => String.fromCharCode(code)).join('');
+		}
 
-	return data;
+        return data;
 }
 
 // Request: TMC status
