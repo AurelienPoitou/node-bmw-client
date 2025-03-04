@@ -473,7 +473,7 @@ class IKE extends EventEmitter {
 		// Update vehicle and engine speed variables
 		// Also allow update from IBUS/KBUS even if CANBUS is enabled when ignition is not in run
 		if (config.canbus.speed === false || status.vehicle.ignition_level < 3) {
-			update.status('vehicle.speed.kmh', parseFloat(data.msg[1] * 2));
+			update.status('vehicle.speed.kmh', parseFloat(data.msg[1] * 2), false);
 			update.status('vehicle.speed.mph', parseFloat(convert(parseFloat((data.msg[1] * 2))).from('kilometre').to('us mile').toFixed(2)));
 		}
 
@@ -674,12 +674,12 @@ class IKE extends EventEmitter {
 		}
 
 		// Space-pad HUD strings
-		if (typeof hud_strings.left.padEnd    === 'function') hud_strings.left  = hud_strings.left.padEnd(9);
+		if (typeof hud_strings.left.padEnd    === 'function') hud_strings.left  = hud_strings.left.padEnd(8);
 		if (typeof hud_strings.right.padStart === 'function') hud_strings.right = hud_strings.right.padStart(4);
 
 		if (typeof hud_strings.center.padEnd === 'function') {
-			hud_strings.center = hud_strings.center.padStart(6);
-			hud_strings.center = hud_strings.center.padEnd(7);
+			hud_strings.center = hud_strings.center.padStart(5);
+			hud_strings.center = hud_strings.center.padEnd(8);
 		}
 
 		// Update hud string in status object
@@ -707,7 +707,7 @@ class IKE extends EventEmitter {
 		bus.data.send({
 			src : 'GT',
 			msg : [ 0x40, 0x01, moment().format('H'), moment().format('m') ],
-		});
+		} );
 
 		// Date
 		bus.data.send({
@@ -957,7 +957,7 @@ class IKE extends EventEmitter {
 			case 0x4:
 			        gear = '2';
 			        break;
-			case 0x6:
+			case 0x7:
 			        gear = 'N';
 			        break;
 			case 0x8:
@@ -979,10 +979,15 @@ class IKE extends EventEmitter {
 			        gear = 'X';
 			        break;
 		}
-
+                log.module('Gear half-byte: ' + first_nibble.toString(16));
                 update.status('vehicle.gear', gear, false);
 
-		update.status('vehicle.handbrake', bitmask.test(data.msg[1], bitmask.bit[0]), false);
+		update.status('vehicle.driving', bitmask.test(data.msg[2], bitmask.bit[1]), false);
+                update.status('vehicle.handbrake', bitmask.test(data.msg[1], bitmask.bit[0]), false);
+                if (data.msg.length > 7) {
+                        update.status('vehicle.fuel_level', data.msg[7] & 0x7F, false);
+                        update.status('vehicle.fuel_level_low', bitmask.test(data.msg[7], bitmask.bit[7]), false);
+                }
 
 		// If the engine is newly running
 		const engine_running = bitmask.test(data.msg[2], bitmask.bit[0]);
@@ -992,7 +997,7 @@ class IKE extends EventEmitter {
 		}
 
 		// If the vehicle is newly in reverse, show IKE message if configured to do so
-		if (update.status('vehicle.reverse', bitmask.test(data.msg[2], bitmask.bit[4]), false)) {
+		if (update.status('vehicle.reverse', gear === 'R', false)) {
 			if (config.options.message_reverse === true) {
 				if (status.vehicle.reverse === true) this.text_override('you\'re in reverse..');
 			}

@@ -819,6 +819,7 @@ function parse_out(data) {
 
 // Welcome lights on unlocking/locking
 function welcome_lights(action, override = false) {
+        if (!config.lights.welcome_lights.enable) return;
 	// Disable welcome lights if ignition is not fully off
 	if (status.vehicle.ignition_level !== 0) action = false;
 
@@ -850,7 +851,7 @@ function welcome_lights(action, override = false) {
 			update.status('lights.welcome_lights', action, false);
 
 			// Send configured welcome lights
-			io_encode(config.lights.welcome_lights);
+			io_encode(config.lights.welcome_lights.lights);
 
 			// Increment welcome lights counter
 			LCM.counts.welcome_lights++;
@@ -858,7 +859,7 @@ function welcome_lights(action, override = false) {
 			// Clear welcome lights status after configured timeout
 			LCM.timeout.lights_welcome = setTimeout(() => {
 				// If we're not over the configured welcome lights limit yet
-				LCM.welcome_lights((LCM.counts.welcome_lights <= config.lights.welcome_lights_sec), true);
+				LCM.welcome_lights((LCM.counts.welcome_lights <= config.lights.welcome_lights.duration), true);
 			}, 1000);
 
 			break;

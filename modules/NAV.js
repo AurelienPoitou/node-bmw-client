@@ -163,13 +163,17 @@ function get_recommended_zoom_level(speed) {
 
 
 function set_zoom_level(current_speed) {
+        log.module('Setting zoom level');
+        log.module('Speed: ' + current_speed);
+        log.module('Zoom Level: ' + status.nav.zoom_level)
         zoom_level = get_recommended_zoom_level(current_speed);
+        log.module('Recommended Zoom Level: ' + zoom_level);
         if (zoom_level !== status.navigation.zoom_level) {
                 bus.data.send({
                         src : 'SES',
                         msg : zoom_control_commands[zoom_level],
                 });
-                update.status('navigation.zoom_level', zoom_level, false);
+                update.status('nav.zoom_level', zoom_level, false);
         }
 }
 
@@ -177,9 +181,7 @@ function set_zoom_level(current_speed) {
 function init_listeners() {
         if (config.navigation.dynamic_zoom) {
                 log.module('Adjusting zoom level based on speed is enabled');
-                update.on('vehicle.speed.kmh', data => {
-                        set_zoom_level(data.new);
-                });
+                update.on('status.vehicle.speed.kmh', data => { set_zoom_level(data.new); });
         }
         log.module('Initialized listeners');
 }
