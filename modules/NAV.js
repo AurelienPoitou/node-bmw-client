@@ -42,7 +42,7 @@ function parse_gps_position(data) {
                 longitudeSeconds    : data.msg[10].toString(16),
                 longitudeFractional : data.msg[11].toString(16),
                 longitudeDirection  : (data.msg[11] & 15) === 1 ? 'W' : 'E',
-                altitude            : data.msg[12] * 100 + data.msg[13]
+                altitude            : data.msg[12] * 100 + data.msg[13],
 
                 string : null,
         };
@@ -76,12 +76,12 @@ function parse_location_name(data) {
         data.value   = 'GPS location, ';
         asciiArray = data.slice(3);
 
-        if (data.msg[2] == 0x01) {
-		        data.value += 'City: ' + asciiArray.filter(code => code !== 0).map(code => String.fromCharCode(code)).join('');
-		}
-		if (data.msg[2] == 0x02) {
-		        data.value += 'Street: ' + asciiArray.filter(code => code !== 0).map(code => String.fromCharCode(code)).join('');
-		}
+        if (data.msg[2] === 0x01) {
+                data.value += 'City: ' + asciiArray.filter(code => code !== 0).map(code => String.fromCharCode(code)).join('');
+        }
+        if (data.msg[2] === 0x02) {
+                data.value += 'Street: ' + asciiArray.filter(code => code !== 0).map(code => String.fromCharCode(code)).join('');
+        }
 
         return data;
 }
@@ -127,6 +127,66 @@ function parse_out(data) {
 }
 
 
+function show_map() {
+        log.module('Show Navigation Map');
+        bus.data.send({
+                src : 'SES',
+                msg : [170, 4, 0],
+        });
+}
+
+
+const zoom_control_commands = {
+        100: [170, 16, 1],
+        200: [170, 16, 2],
+        500: [170, 16, 4],
+        1000: [170, 16, 16],
+        2000: [170, 16, 17],
+        5000: [170, 16, 18]
+}
+
+function get_recommended_zoom_level(speed) {
+        if (speed <= 20) {
+                return 100; // 100m
+        } else if (speed <= 40) {
+                return 200; // 200m
+        } else if (speed <= 60) {
+                return 500; // 500m
+        } else if (speed <= 80) {
+                return 1000; // 1km
+        } else if (speed <= 100) {
+                return 2000; // 2km
+        } else {
+                return 5000;
+        }
+}
+
+
+function set_zoom_level(current_speed) {
+        zoom_level = get_recommended_zoom_level(current_speed);
+        if (zoom_level !== status.navigation.zoom_level) {
+                bus.data.send({
+                        src : 'SES',
+                        msg : zoom_control_commands[zoom_level],
+                });
+                update.status('navigation.zoom_level', zoom_level, false);
+        }
+}
+
+
+function init_listeners() {
+        if (config.navigation.dynamic_zoom) {
+                log.module('Adjusting zoom level based on speed is enabled');
+                update.on('vehicle.speed.kmh', data => {
+                        set_zoom_level(data.new);
+                });
+        }
+        log.module('Initialized listeners');
+}
+
+
 module.exports = {
 	parse_out,
+
+        init_listeners,
 };

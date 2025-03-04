@@ -944,7 +944,7 @@ class IKE extends EventEmitter {
 		// 176 = P (4+5+7)
 		// 192 = 4 (6+7)
 		// 208 = 3 (4+6+7)
-		const first_nibble = (bb & 0xF0) >> 4;
+		const first_nibble = (data.msg[2] & 0xF0) >> 4;
 		let gear;
 
 		switch (first_nibble) {

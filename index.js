@@ -109,6 +109,7 @@ async function init() {
 	IKE.init_listeners();
 	LCM.init_listeners();
 	MID.init_listeners();
+        NAV.init_listeners();
 	NBT.init_listeners();
 	RAD.init_listeners();
 	TEL.init_listeners();
