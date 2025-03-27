@@ -168,12 +168,13 @@ function set_zoom_level(current_speed) {
         log.module('Zoom Level: ' + status.nav.zoom_level)
         zoom_level = get_recommended_zoom_level(current_speed);
         log.module('Recommended Zoom Level: ' + zoom_level);
-        if (zoom_level !== status.navigation.zoom_level) {
+        if (update.status('nav.zoom_level', zoom_level, false)) {
                 bus.data.send({
                         src : 'SES',
+                        dst : 'NAVE',
                         msg : zoom_control_commands[zoom_level],
                 });
-                update.status('nav.zoom_level', zoom_level, false);
+//                update.status('nav.zoom_level', zoom_level, false);
         }
 }
 
