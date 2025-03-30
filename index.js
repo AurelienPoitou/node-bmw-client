@@ -100,16 +100,18 @@ async function init() {
 
 	// Initialize event listeners
 	BMBT.init_listeners();
-	CAS.init_listeners();
-	CON.init_listeners();
+//	CAS.init_listeners();
+//	CON.init_listeners();
 	DME.init_listeners();
-	DSC.init_listeners();
-	FEM.init_listeners();
+//	DSC.init_listeners();
+//	FEM.init_listeners();
 	GM.init_listeners();
 	IKE.init_listeners();
 	LCM.init_listeners();
 	MID.init_listeners();
-	NBT.init_listeners();
+        NAV.init_listeners();
+//	NBT.init_listeners();
+        PDC.init_listeners();
 	RAD.init_listeners();
 	TEL.init_listeners();
 
