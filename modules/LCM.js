@@ -368,7 +368,7 @@ function decode(data) {
 			update.status('lcm.io.4',  data.msg[4],  false);
 			update.status('lcm.io.5',  data.msg[5],  false);
 			update.status('lcm.io.6',  data.msg[6],  false);
-			update.status('lcm.io.7',  data.msg[7],  false);
+			update.status('lcm.io.7',  data.msg[7],  false); // Voltage: Potentiometer, LWR (Front load voltage for Xenon)
 			update.status('lcm.io.8',  data.msg[8],  false);
 			update.status('lcm.io.9',  data.msg[9],  false); // Voltage: Terminal 30
 			update.status('lcm.io.10', data.msg[10], false);
@@ -377,9 +377,9 @@ function decode(data) {
 			update.status('lcm.io.13', data.msg[13], false);
 			update.status('lcm.io.14', data.msg[14], false);
 			update.status('lcm.io.15', data.msg[15], false); // Voltage: Potentiometer, dimmer
-			update.status('lcm.io.16', data.msg[16], false); // Voltage: Potentiometer, LWR
+			update.status('lcm.io.16', data.msg[16], false); // Voltage: Potentiometer, LWR (Rear load voltage for Xenon)
 			update.status('lcm.io.17', data.msg[17], false);
-			update.status('lcm.io.18', data.msg[18], false); // Changes while running (autolevel?)
+			update.status('lcm.io.18', data.msg[18], false); // Voltage: Photosensor (LSZ)
 			update.status('lcm.io.19', data.msg[19], false); // Changes while running (autolevel?), or Voltage, photo cell
 			update.status('lcm.io.20', data.msg[20], false);
 			update.status('lcm.io.21', data.msg[21], false); // Changes while running (autolevel?)
@@ -393,6 +393,12 @@ function decode(data) {
 			update.status('lcm.io.29', data.msg[29], false); // Voltage: Flash to pass
 			update.status('lcm.io.30', data.msg[30], false); // Voltage: Turn signal
 			update.status('lcm.io.31', data.msg[31], false);
+
+                        const offset = 310;
+                        const rawTemperature = (msg[19] * 0.00005) + (msg[20] * 0.01275);
+                        const oilTemperature = 67.2529 * Math.log(rawTemperature) + offset;
+                        // Update key after finding out the unit
+                        update.status('temperature.oil', oilTemperature, false);
 
 			const voltages = {
 				pot : {
