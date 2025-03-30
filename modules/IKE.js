@@ -935,15 +935,6 @@ class IKE extends EventEmitter {
 		data.command = 'bro';
 		data.value   = 'sensor status';
 
-		// data.msg[2]:
-		//   1 = Engine running
-		//  16 = R (4)
-		//  64 = 2 (6)
-		// 112 = N (4+5+6)
-		// 128 = D (7)
-		// 176 = P (4+5+7)
-		// 192 = 4 (6+7)
-		// 208 = 3 (4+6+7)
 		const first_nibble = (data.msg[2] & 0xF0) >> 4;
 		let gear;
 
@@ -979,11 +970,10 @@ class IKE extends EventEmitter {
 			        gear = 'X';
 			        break;
 		}
-                log.module('Gear half-byte: ' + first_nibble.toString(16));
                 update.status('vehicle.gear', gear, false);
-
 		update.status('vehicle.driving', bitmask.test(data.msg[2], bitmask.bit[1]), false);
                 update.status('vehicle.handbrake', bitmask.test(data.msg[1], bitmask.bit[0]), false);
+
                 if (data.msg.length > 7) {
                         update.status('vehicle.fuel_level', data.msg[7] & 0x7F, false);
                         update.status('vehicle.fuel_level_low', bitmask.test(data.msg[7], bitmask.bit[7]), false);
