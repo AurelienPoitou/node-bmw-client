@@ -145,9 +145,15 @@ function setLEDs() {
 function parse_in(data) {
 	// Bounce if emulation isn't enabled
 	if (config.emulate.tel !== true) return;
-
-	// switch (data.msg[0]) {
-	// }
+        status = 0x00;
+        // 0x10 status active power handsfree
+        // 0x35 status active power call handsfree
+        // Send TEL status message
+	bus.data.send({
+	        src : 'TEL',
+	        dst : 'ANZV',
+	        msg : [ 0x2C, status ],
+        });
 
 	return data;
 } // parse_in(data)
@@ -165,8 +171,36 @@ function parse_out(data) {
 	return data;
 }
 
+function display_phone_number(number) {
+        if (typeof number !== 'undefined' && number.length > 0) {
+                // Send message
+	        bus.data.send({
+		        src : 'TEL',
+		        dst : 'GT',
+		        msg : [ 0x23, 0x63, 0x00, 0x31, 0x32, 0x33, 0x2d, 0x34, 0x35, 0x36, 0x2d, 0x37, 0x38, 0x39, 0x30 ],
+	        });
+        } else {
+                // Send empty message
+	        bus.data.send({
+		        src : 'TEL',
+		        dst : 'GT',
+		        msg : [ 0x23, 0x61, 0x20 ],
+	        });
+        }
+}
+
+function enable_phone_menu() {
+        // Send message
+	bus.data.send({
+		src : 'TEL',
+		dst : 'GT',
+		msg : [ 0x21, 0x42, 0x02, 0x20 ],
+	});
+}
+
 function init_listeners() {
 	update.on('status.bluetooth.device.connected', setLEDs);
+	update.on('status.bluetooth.device.connected', enable_phone_menu);
 	update.on('status.bluetooth.device.connecting', setLEDs);
 	update.on('status.bluetooth.device.disconnecting', setLEDs);
 	update.on('status.bluetooth.player.status', setLEDs);

@@ -469,6 +469,9 @@ function switch_screen_on() {
         });
 }
 
+function screen_mode_set(data) {
+}
+
 function change_ui_req(data) {
         if (data.msg[1] === 0x02 && data.msg[2] === 0x0C) {
                 bus.data.send({ // Display Menu
@@ -476,18 +479,11 @@ function change_ui_req(data) {
                         dst : 'GT',
                         msg : [ 0x21, 0x42, 0x02, 0x20 ],
                 });
-                bus.data.send({ // Display Numberclient_loop: send disconnect: Connection reset
+                bus.data.send({ // Display Number
                         src : 'TEL',
                         dst : 'GT',
                         msg : [ 0x23, 0x61, 0x20 ],
                 });
-        }
-}
-
-function screen_mode_set(data) {
-        if (data.msg[1] === 0x10) { // Nav Boot
-                update.status('gt.menu', 'none', false);
-                //update.status('', '', false);
         }
 }
 
