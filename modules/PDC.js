@@ -40,11 +40,7 @@ function request_pdc_status() {
 }
 
 function init_listeners() {
-        IKE.on('obc-refresh', () => {
-		if (status.vehicle.reverse === true) {
-                        request_pdc_status();
-                }
-        });
+        update.on('status.vehicle.reverse', request_pdc_status);
         log.module('Initialized listeners');
 }
 
