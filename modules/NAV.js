@@ -163,9 +163,11 @@ function get_recommended_zoom_level(speed) {
 
 
 function set_zoom_level(current_speed) {
-        log.module('Setting zoom level');
-        log.module('Speed: ' + current_speed);
-        log.module('Zoom Level: ' + status.nav.zoom_level)
+        const d = new Date();
+        let time = d.getTime();
+        if (time < status.nav.zoom_adjustment_time + config.navigation.dynamic_zoom_hysteresis) {
+                return;
+        }
         zoom_level = get_recommended_zoom_level(current_speed);
         log.module('Recommended Zoom Level: ' + zoom_level);
         if (update.status('nav.zoom_level', zoom_level, false)) {
@@ -174,7 +176,7 @@ function set_zoom_level(current_speed) {
                         dst : 'NAVE',
                         msg : zoom_control_commands[zoom_level],
                 });
-//                update.status('nav.zoom_level', zoom_level, false);
+                update.status('nav.zoom_adjustment_time', time, false);
         }
 }
 
