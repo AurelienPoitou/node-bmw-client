@@ -476,7 +476,7 @@ function change_ui_req(data) {
                         dst : 'GT',
                         msg : [ 0x21, 0x42, 0x02, 0x20 ],
                 });
-                bus.data.send({ // Display Numberclient_loop: send disconnect: Connection reset
+                bus.data.send({ // Display Number
                         src : 'TEL',
                         dst : 'GT',
                         msg : [ 0x23, 0x61, 0x20 ],
