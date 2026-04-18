@@ -106,6 +106,7 @@ async function init() {
 //	DSC.init_listeners();
 //	FEM.init_listeners();
 	GM.init_listeners();
+	GT.init_listeners();
 	IKE.init_listeners();
 	LCM.init_listeners();
 	MID.init_listeners();

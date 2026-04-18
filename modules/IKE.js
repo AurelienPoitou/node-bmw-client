@@ -919,7 +919,7 @@ class IKE extends EventEmitter {
 					this.emit('ignition-start-end');
 
 					// Set OBC clock
-					this.obc_clock();
+					//this.obc_clock();
 				}
 			}
 		}

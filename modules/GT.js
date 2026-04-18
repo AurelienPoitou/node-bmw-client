@@ -405,7 +405,7 @@ function settings_menu() {
 }
 
 function gt_buffer_flush() {
-        gt_update(update.status.gt.nav_index_type);
+        gt_update(status.gt.nav_type_index);
 }
 
 function write_zone(index, text) {
@@ -419,7 +419,7 @@ function write_zone(index, text) {
         gt_buffer_flush();
 }
 
-function write_index(index, text, clear_indexes) {
+function write_index(index, text, clearIdxs) {
         let stringLength = text.length;
         let newTextLength = stringLength + clearIdxs + 1;
         let newText = new Array(newTextLength + 1).fill(0x20); // Fill with spaces (0x20)
@@ -436,12 +436,32 @@ function write_index(index, text, clear_indexes) {
         }
 
         newText[newTextLength] = 0;
-        status.update('gt.nav_index_type', 0x61, false);
+        update.status('gt.nav_index_type', 0x61, false);
         // Send message
         bus.data.send({
                 src : 'RAD',
                 dst : 'GT',
                 msg : [ 0x21, 0x61, 0x00, index + 0x40 ].concat(newText),
+        });
+}
+
+function write_title_index(text) {
+	let stringLength = text.length;
+	if (stringLength > 24) {
+		stringLength = 24;
+	}
+        let newTextLength = stringLength + 1;
+        let newText = new Array(newTextLength + 1).fill(0x06);
+
+        // Copy the original text into newText
+        for (let i = 0; i < stringLength; i++) {
+                newText[i] = text.charCodeAt(i); // Copy each character as its ASCII value
+        }
+        // Send message
+        bus.data.send({
+                src : 'RAD',
+                dst : 'GT',
+                msg : [ 0x21, 0x61, 0x00, 0x09 ].concat(newText),
         });
 }
 
@@ -635,7 +655,11 @@ function parse_out(data) {
 }
 
 function init_listeners() {
-        status.update('gt.nav_index_type', 0x61, false);
+	update.on('status.bluetooth.device.connected', () => {
+		main_menu();
+	});
+        update.status('gt.nav_index_type', 0x61, false);
+	log.module('Initialized listeners');
 }
 
 module.exports = {
