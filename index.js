@@ -92,7 +92,7 @@ async function init() {
 
 	await api.init(); // Start Express API server
 
-	await bluetooth.init(); // Start Linux D-Bus Bluetooth handler
+	await bluetooth.init().catch(err => log.lib(`Bluetooth init failed: ${err}`));
 	await gpio.init();      // Initialize GPIO relays
 	await hdmi_cec.init();  // Open HDMI (CEC)
 	await hdmi_rpi.init();  // Open HDMI (RPi)
@@ -117,6 +117,7 @@ async function init() {
 	TEL.init_listeners();
 
 	bus.data.init_listeners();
+	bluetooth.init_listeners();
 	gpio.init_listeners();
 	json.init_listeners();
 	kodi.init_listeners();
@@ -139,7 +140,7 @@ async function term() {
 
 	log.msg('Terminating');
 
-	await bluetooth.command('disconnect'); // Disconnect Bluetooth device
+	await bluetooth.disconnect(); // Disconnect Bluetooth device
 
 	await api.term();      // Stop Express API server
 	await json.write();    // Write JSON config and status files

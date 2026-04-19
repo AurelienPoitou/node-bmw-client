@@ -124,8 +124,8 @@ async function decode_button(data) {
 			switch (config.bmbt.media) {
 				case 'bluetooth' : {
 					switch (lastActionButton) {
-						case 'depressleft'  : await bluetooth.command('previous'); break;
-						case 'depressright' : await bluetooth.command('next');     break;
+						case 'depressleft'  : await bluetooth.previous(); break;
+						case 'depressright' : await bluetooth.next();     break;
 					} // switch (lastActionButton)
 
 					break;

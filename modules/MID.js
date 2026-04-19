@@ -211,12 +211,12 @@ function parse_out(data) {
 					case 0x00 : break;
 					case 0x01 : break;
 
-					case 0x02 : bluetooth.command('connect');    break;
-					case 0x03 : bluetooth.command('disconnect'); break;
-					case 0x04 : bluetooth.command('previous');   break;
-					case 0x05 : bluetooth.command('next');       break;
-					case 0x06 : bluetooth.command('pause');      break;
-					case 0x07 : bluetooth.command('play');       break;
+					case 0x02 : bluetooth.connect();    break;
+					case 0x03 : bluetooth.disconnect(); break;
+					case 0x04 : bluetooth.previous();   break;
+					case 0x05 : bluetooth.next();       break;
+					case 0x06 : bluetooth.pause();      break;
+					case 0x07 : bluetooth.play();       break;
 					case 0x08 : bluetooth.command('repeat');     break;
 					case 0x09 : bluetooth.command('shuffle');    break;
 
